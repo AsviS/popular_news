@@ -1,3 +1,4 @@
+import 'package:after_layout/after_layout.dart';
 import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
 import 'package:clean_news_ai/ui/drawing/drawing_presenter.dart';
 import 'package:clean_news_ai/ui/drawing/gradient.dart';
@@ -23,7 +24,7 @@ class BaseScreen extends StatefulWidget {
   _BaseScreenState createState() => _BaseScreenState(initialIndex);
 }
 
-class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin {
+class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin, AfterLayoutMixin {
   TabController _controller;
   final int initialIndex;
 
@@ -33,15 +34,6 @@ class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _controller = TabController(length: 3, vsync: this, initialIndex: initialIndex);
-    // ignore: invalid_use_of_protected_member
-    if (!_controller.hasListeners) {
-      Future.delayed(Duration.zero, () {
-        _controller.addListener(() {
-          final presenter = PresenterProvider.of<NavigationPresenter>(context);
-          presenter.routeTo(_controller.index);
-        });
-      });
-    }
   }
 
   @override
@@ -82,5 +74,23 @@ class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  void afterFirstLayout(BuildContext context) {
+    if (!_controller.hasListeners) {
+      Future.delayed(Duration.zero, () {
+        _controller.addListener(() {
+          final presenter = PresenterProvider.of<NavigationPresenter>(context);
+          presenter.routeTo(_controller.index);
+        });
+      });
+    }
   }
 }
