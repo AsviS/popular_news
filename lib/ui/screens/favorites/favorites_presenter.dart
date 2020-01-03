@@ -6,11 +6,14 @@ import 'package:osam/domain/store/store.dart';
 import 'package:osam/osam.dart';
 import 'package:osam/presentation/presenter.dart';
 
-class FavoritesPresenter<S extends Store<AppState>> extends Presenter<S> {
+class FavoritesPresenter extends Presenter<Store<AppState>> {
   StreamSubscription<List<Article>> newsSub;
+
   Stream<List<Article>> get stream => _broadcaster.stream;
   StreamController<List<Article>> _broadcaster;
+
   List<Article> get initialData => store.state.favoritesState.news.values.toList();
+
   double get initialScrollPosition => store.state.topNewsState.scrollPosition;
 
   @override
@@ -28,7 +31,7 @@ class FavoritesPresenter<S extends Store<AppState>> extends Presenter<S> {
 
   @override
   void dispose() {
-    newsSub.cancel();
-    _broadcaster.close();
+    newsSub?.cancel();
+    _broadcaster?.close();
   }
 }

@@ -1,5 +1,4 @@
 import 'package:after_layout/after_layout.dart';
-import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
 import 'package:clean_news_ai/ui/drawing/drawing_presenter.dart';
 import 'package:clean_news_ai/ui/drawing/gradient.dart';
 import 'package:clean_news_ai/ui/screens/settings_screen/settings_presenter.dart';

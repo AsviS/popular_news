@@ -12,11 +12,13 @@ class NewsGradient extends StatelessWidget {
     return StreamBuilder(
         stream: presenter.stream,
         initialData: presenter.initialData,
-        builder: (context, AsyncSnapshot<Color> snapshot) {
+        builder: (context, AsyncSnapshot<int> snapshot) {
           return Container(
               decoration: BoxDecoration(
                   gradient: LinearGradient(
-                      begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.black, snapshot?.data ?? Colors.yellow])));
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.black, Color(snapshot?.data) ?? Colors.yellow])));
         });
   }
 }

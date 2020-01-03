@@ -21,6 +21,7 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
+
   @override
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<NewsCardPresenter>(context);

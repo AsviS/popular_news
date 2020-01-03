@@ -39,23 +39,28 @@ class TopNewsScreen extends StatelessWidget {
             .map((theme) => StreamBuilder(
                   initialData: presenter.initialData[theme],
                   stream: presenter.stream.map((news) => news[theme]),
-                  builder: (ctx, AsyncSnapshot<Map<String, Article>> snapshot) => snapshot.data.isNotEmpty
+                  builder: (ctx, AsyncSnapshot<Map<String, Article>> snapshot) => snapshot
+                          .data.isNotEmpty
                       ? SliverStickyHeader(
                           header: NewsStickyHeader(title: theme),
                           sliver: SliverList(
-                            delegate: SliverChildListDelegate(snapshot.data.keys
-                                .map((key) => PresenterProvider(
-                                      key: ValueKey(key),
-                                      presenter: NewsCardPresenter(snapshot.data[key]),
+                            delegate: SliverChildBuilderDelegate(
+                                (ctx, index) => PresenterProvider(
+                                      key: ValueKey(snapshot.data.keys.toList()[index]),
                                       child: NewsCard(),
-                                    ))
-                                .toList()),
+                                      presenter:
+                                          NewsCardPresenter(snapshot.data.values.toList()[index]),
+                                    ),
+                                childCount: snapshot.data.keys.length),
                           ),
                         )
                       : SliverToBoxAdapter(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[NewsStickyHeader(title: theme), CupertinoActivityIndicator()],
+                            children: <Widget>[
+                              NewsStickyHeader(title: theme),
+                              CupertinoActivityIndicator()
+                            ],
                           ),
                         ),
                 ))

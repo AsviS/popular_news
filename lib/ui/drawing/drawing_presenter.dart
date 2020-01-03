@@ -1,21 +1,20 @@
 import 'dart:async';
-import 'dart:ui';
 
 import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
 import 'package:osam/domain/store/store.dart';
 import 'package:osam/presentation/presenter.dart';
 
 class DrawingPresenter extends Presenter<Store<AppState>> {
-  StreamSubscription<Color> colorSub;
-  StreamController<Color> _broadcaster;
+  StreamSubscription<int> colorSub;
+  StreamController<int> _broadcaster;
 
-  Stream<Color> get stream => _broadcaster.stream;
+  Stream<int> get stream => _broadcaster.stream;
 
-  Color get initialData => store.state.settingsState.color;
+  int get initialData => store.state.settingsState.color;
 
   @override
   void init() {
-    _broadcaster = StreamController<Color>.broadcast();
+    _broadcaster = StreamController<int>.broadcast();
     colorSub = store.state.settingsState.propertyStream((state) => state.color).listen((color) {
       _broadcaster.add(color);
     });
@@ -23,7 +22,7 @@ class DrawingPresenter extends Presenter<Store<AppState>> {
 
   @override
   void dispose() {
-    colorSub.cancel();
-    _broadcaster.close();
+    colorSub?.cancel();
+    _broadcaster?.close();
   }
 }
