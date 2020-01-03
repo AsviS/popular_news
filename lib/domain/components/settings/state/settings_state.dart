@@ -7,7 +7,7 @@ part 'settings_state.g.dart';
 // ignore: must_be_immutable
 class SettingsState extends BaseState<SettingsState> {
   @HiveField(0)
-  var themes = <String>['general'];
+  var themes = <String>[];
 
   @HiveField(1)
   var color = 0xFF005BFF;
@@ -15,6 +15,7 @@ class SettingsState extends BaseState<SettingsState> {
   void addTheme(String theme) => this.themes.add(theme);
   void removeTheme(String theme) => this.themes.remove(theme);
   void changeColor(int color) => this.color = color;
+  void clearThemes() => themes.clear();
 
   @override
   List<Object> get props => [themes, color];

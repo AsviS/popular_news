@@ -11,25 +11,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:osam/osam.dart';
 
+import '../../../main.dart';
+import '../base_screen_presenter.dart';
+
 class TopNewsScreen extends StatelessWidget {
   TopNewsScreen(key) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<TopNewsPresenter>(context);
-    final scrollController = ScrollController(initialScrollOffset: presenter.initialScrollPosition);
-    scrollController.addListener(() {
-      presenter.updateScrollPosition(scrollController.offset);
-    });
     return CustomScrollView(
-      controller: scrollController,
-      physics: BouncingScrollPhysics(),
+      physics: scrollPhysics,
       slivers: <Widget>[
         TitleAppBar(title: 'News'),
         CupertinoSliverRefreshControl(
           builder: buildSimpleRefreshIndicator,
           onRefresh: () {
-            return Future.delayed(const Duration(seconds: 2), () {});
+            return Future.delayed(const Duration(seconds: 2), () {
+              PresenterProvider.of<BaseScreenPresenter>(context).tryDownloadAgain();
+            });
           },
         ),
         SliverPadding(
@@ -64,7 +64,10 @@ class TopNewsScreen extends StatelessWidget {
                           ),
                         ),
                 ))
-            .toList()
+            .toList(),
+        SliverPadding(
+          padding: EdgeInsets.only(top: 20),
+        ),
       ],
     );
   }

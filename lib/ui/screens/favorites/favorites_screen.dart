@@ -1,5 +1,4 @@
 import 'package:clean_news_ai/data/dto/article.dart';
-import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
 import 'package:clean_news_ai/ui/ui_elements/list_element/news_card.dart';
 import 'package:clean_news_ai/ui/ui_elements/list_element/news_card_presenter.dart';
 import 'package:clean_news_ai/ui/widgets/title_app_bar.dart';
@@ -7,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osam/osam.dart';
 
+import '../../../main.dart';
 import 'favorites_presenter.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -16,20 +16,10 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<FavoritesPresenter>(context);
-    final scrollController = ScrollController(initialScrollOffset: presenter.initialScrollPosition);
-    scrollController.addListener(() {
-      presenter.updateScrollPosition(scrollController.offset);
-    });
     return CustomScrollView(
-      controller: scrollController,
-      physics: BouncingScrollPhysics(),
+      physics: scrollPhysics,
       slivers: <Widget>[
         TitleAppBar(title: 'Favorites'),
-        CupertinoSliverRefreshControl(
-          onRefresh: () {
-            return Future.delayed(const Duration(seconds: 2), () {});
-          },
-        ),
         SliverPadding(
           padding: EdgeInsets.only(top: 8),
         ),
@@ -49,7 +39,10 @@ class FavoritesScreen extends StatelessWidget {
               },
             );
           },
-        )
+        ),
+        SliverPadding(
+          padding: EdgeInsets.only(top: 20),
+        ),
       ],
     );
   }

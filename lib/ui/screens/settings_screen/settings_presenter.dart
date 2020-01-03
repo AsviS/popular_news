@@ -16,7 +16,7 @@ class SettingsPresenter extends Presenter<Store<AppState>> {
 
   @override
   void init() {
-    _themesBroadcaster = StreamController<List<String>>.broadcast();
+    _themesBroadcaster = StreamController.broadcast();
     selectedThemesSub = store.state.settingsState
         .propertyStream<List<String>>((state) => state.themes)
         .listen((data) {
@@ -24,9 +24,12 @@ class SettingsPresenter extends Presenter<Store<AppState>> {
     });
   }
 
-  void changeThemesForTopNewsState() => store.dispatchEvent(
-      event: Event.modify(
-          reducer: (state, _) => state.topNewsState..clearAndAddNewThemes(initialData)));
+  void changeThemesForTopNewsState() {
+    store.dispatchEvent(
+        event: Event.modify(reducer: (state, _) => state.topNewsState..clearNews()));
+    store.dispatchEvent(
+        event: Event.modify(reducer: (state, _) => state.topNewsState..addNewThemes(initialData)));
+  }
 
   void addTheme(String theme) {
     store.dispatchEvent(

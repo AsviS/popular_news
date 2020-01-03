@@ -26,12 +26,12 @@ class FavoritesPresenter extends Presenter<Store<AppState>> {
     });
   }
 
-  void updateScrollPosition(double value) => store.dispatchEvent(
-      event: Event.modify(reducer: (state, _) => state.topNewsState..updateScrollPosition(value)));
-
   @override
   void dispose() {
     newsSub?.cancel();
     _broadcaster?.close();
   }
 }
+//
+//  void updateScrollPosition(double value) => store.dispatchEvent(
+//      event: Event.modify(reducer: (state, _) => state.topNewsState..updateScrollPosition(value)));

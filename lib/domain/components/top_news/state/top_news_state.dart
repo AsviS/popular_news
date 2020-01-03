@@ -13,17 +13,16 @@ class TopNewsState extends BaseState<TopNewsState> {
   @HiveField(1)
   var scrollPosition = 0.0;
 
-  void updateScrollPosition(double value) => scrollPosition = value;
+  void addNews({String theme, Map<String, Article> news}) => this.news[theme] = news;
 
-  void addNews({String theme, Map<String, Article> news}) =>
-      this.news[theme] = news;
+  void clearNews() => this.news.clear();
 
-  void clearAndAddNewThemes(List<String> themes) {
-    this.news.clear();
-    this.news.addAll(Map.fromIterable(themes,
-        key: (item) => item, value: (item) => <String, Article>{}));
+  void addNewThemes(List<String> themes) {
+    this.news.addAll(
+        Map.fromIterable(themes, key: (item) => item, value: (item) => <String, Article>{}));
   }
 
   @override
   List<Object> get props => [news];
 }
+//  void updateScrollPosition(double value) => scrollPosition = value;

@@ -1,4 +1,3 @@
-
 import 'package:clean_news_ai/domain/components/favorites/state/favorites_state.dart';
 import 'package:clean_news_ai/domain/components/navigation/state/navigation_state.dart';
 import 'package:clean_news_ai/domain/components/settings/state/settings_state.dart';
@@ -19,7 +18,12 @@ class AppState extends BaseState<AppState> {
   var favoritesState = FavoritesState();
   @HiveField(3)
   var settingsState = SettingsState();
+  @HiveField(4)
+  var isFailure = false;
+
+  void setIsFailure(bool value) => isFailure = value;
 
   @override
-  List<Object> get props => [topNewsState, navigationState, favoritesState, settingsState];
+  List<Object> get props =>
+      [topNewsState, navigationState, favoritesState, settingsState, isFailure];
 }

@@ -15,16 +15,17 @@ class NavigationPresenter<S extends Store<AppState>> extends Presenter<S> {
 
   @override
   void init() {
-    _broadcaster = StreamController<int>.broadcast();
-
-    navigationIndexSub =
-        store.state.navigationState.propertyStream<int>((state) => state.navigationIndex).listen((data) {
+    _broadcaster = StreamController.broadcast();
+    navigationIndexSub = store.state.navigationState
+        .propertyStream<int>((state) => state.navigationIndex)
+        .listen((data) {
       _broadcaster.sink.add(data);
     });
   }
 
   void routeTo(int index) {
-    store.dispatchEvent(event: Event.modify(reducer: (state, _) => state.navigationState..routeTo(index)));
+    store.dispatchEvent(
+        event: Event.modify(reducer: (state, _) => state.navigationState..routeTo(index)));
   }
 
   void refreshNavigationIndex(int index) => store.state.navigationState
