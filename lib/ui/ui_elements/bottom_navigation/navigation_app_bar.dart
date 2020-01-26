@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:osam/presentation/presenter_provider.dart';
+import 'package:osam/presentation/store_provider.dart';
 
 import 'navigation_presenter.dart';
 

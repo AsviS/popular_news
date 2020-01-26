@@ -6,9 +6,9 @@ class Answer {
   final List<Article> articles;
 
   const Answer({
-    this.status = '',
-    this.totalResults = 0,
-    this.articles = const <Article>[],
+    this.status,
+    this.totalResults,
+    this.articles,
   });
 
   @override
@@ -23,27 +23,6 @@ class Answer {
   @override
   int get hashCode => status.hashCode ^ totalResults.hashCode ^ articles.hashCode;
 
-  @override
-  String toString() {
-    return 'Answer{' +
-        ' status: $status,' +
-        ' totalResults: $totalResults,' +
-        ' articles: $articles,' +
-        '}';
-  }
-
-  Answer copyWith({
-    String status,
-    int totalResults,
-    List<Article> articles,
-  }) {
-    return Answer(
-      status: status ?? this.status,
-      totalResults: totalResults ?? this.totalResults,
-      articles: articles ?? this.articles,
-    );
-  }
-
   Map<String, Object> toMap() {
     return {
       'status': this.status,
@@ -54,8 +33,8 @@ class Answer {
 
   factory Answer.fromMap(Map<String, dynamic> map) {
     return Answer(
-      status: map['status'] as String ?? '',
-      totalResults: map['totalResults'] as int ?? 0,
+      status: map['status'] as String,
+      totalResults: map['totalResults'] as int,
       articles: map['articles']?.map<Article>((article) => Article.fromMap(article)).toList(),
     );
   }

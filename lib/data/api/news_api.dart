@@ -5,15 +5,17 @@ import 'package:http/http.dart';
 
 const apiKey = '10d15b867c564e6ba33531af21905fb2';
 
-abstract class API {
+// todo: add http client with logging and timeouts
+
+abstract class Api {
   Future<String> getTopArticles({@required String category});
 
   Future<String> searchArticles({@required String keyWord});
 
-  factory API.newsAPI() => _NewsApi();
+  factory Api.newsAPI() => _NewsApi();
 }
 
-class _NewsApi implements API {
+class _NewsApi implements Api {
   @override
   Future<String> getTopArticles({String category}) async {
     try {

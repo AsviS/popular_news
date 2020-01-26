@@ -1,40 +1,27 @@
 import 'dart:async';
 
-import 'package:clean_news_ai/data/dto/article.dart';
 import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
+import 'package:clean_news_ai/domain/model/news_model.dart';
 import 'package:osam/osam.dart';
 
 class NewsCardPresenter extends Presenter<Store<AppState>> {
-  final Article article;
+  final NewsModel model;
 
-  StreamSubscription<Map<String, Article>> savedSub;
-  StreamController<bool> isSavedBroadcaster;
+  NewsCardPresenter(this.model);
 
-  NewsCardPresenter(this.article);
+  bool get initialData => store.state.favoritesState.news.containsKey(model.url);
 
-  bool get initialData => store.state.favoritesState.news.containsKey(article.url);
+  Stream<bool> get stream =>
+      store.state.favoritesState.propertyStream((state) => state.news.containsKey(model.url));
 
-  Stream<bool> get stream => isSavedBroadcaster.stream;
-
-  @override
-  void init() {
-    isSavedBroadcaster = StreamController<bool>.broadcast();
-    savedSub =
-        store.state.favoritesState.propertyStream<Map<String, Article>>((state) => state.news).listen((savedNews) {
-      isSavedBroadcaster.sink.add(savedNews.containsKey(article.url) ? true : false);
-    });
-  }
-
-  void addToFavorites() =>
-      store.dispatchEvent(event: Event.modify(reducer: (state, _) => state.favoritesState..addArticle(article)));
+  void addToFavorites() => store.dispatchEvent(
+      event: Event(reducer: (state) => state.favoritesState..addNewsModel(model)));
 
   void removeFromFavorites() {
-    store.dispatchEvent(event: Event.modify(reducer: (state, _) => state.favoritesState..removeArticle(article.url)));
+    store.dispatchEvent(
+        event: Event(reducer: (state) => state.favoritesState..removeArticle(model.url)));
   }
 
   @override
-  void dispose() {
-    savedSub.cancel();
-    isSavedBroadcaster.close();
-  }
+  void dispose() {}
 }

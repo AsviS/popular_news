@@ -1,18 +1,10 @@
-import 'package:flutter/foundation.dart';
-import 'package:hive/hive.dart';
-
-part 'source.g.dart';
-
-@HiveType()
 class Source {
-  @HiveField(0)
   final String id;
-  @HiveField(1)
   final String name;
 
   Source({
-    @required this.id,
-    @required this.name,
+    this.id,
+    this.name,
   });
 
   @override
@@ -23,21 +15,6 @@ class Source {
   @override
   int get hashCode => id.hashCode ^ name.hashCode;
 
-  @override
-  String toString() {
-    return 'Source{' + ' id: $id,' + ' name: $name,' + '}';
-  }
-
-  Source copyWith({
-    String id,
-    String name,
-  }) {
-    return Source(
-      id: id ?? this.id,
-      name: name ?? this.name,
-    );
-  }
-
   Map<String, Object> toMap() {
     return {
       'id': this.id,
@@ -45,7 +22,7 @@ class Source {
     };
   }
 
-  factory Source.fromMap(Map<String, dynamic> map) {
+  factory Source.fromMap(Map<String, Object> map) {
     return Source(
       id: map['id'] as String,
       name: map['name'] as String,

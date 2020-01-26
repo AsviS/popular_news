@@ -1,4 +1,5 @@
 import 'dart:core';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osam/osam.dart';
@@ -21,15 +22,12 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
-
   @override
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<NewsCardPresenter>(context);
-    final article = presenter.article;
-    return GestureDetector(
-      onTap: () {
 
-      },
+    return GestureDetector(
+      onTap: () {},
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: Colors.white10)),
         alignment: Alignment.center,
@@ -41,14 +39,14 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
               child: Row(
                 children: [
                   Expanded(
-                      child: Text(article.source.name,
+                      child: Text(presenter.model.source,
                           style: TextStyle(color: CupertinoColors.white))),
                   Row(
                     children: [
                       IconButton(
                         icon: Icon(CupertinoIcons.reply, color: Colors.white),
                         onPressed: () async {
-                          Share.share(article.url);
+                          Share.share(presenter.model.url);
                         },
                       ),
                       StreamBuilder(
@@ -60,7 +58,10 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
                                 snapshot.data ? CupertinoIcons.book_solid : CupertinoIcons.book,
                                 color: Colors.white),
                             onPressed: () async {
-                              if (snapshot.data && widget.listKey != null) {
+                              snapshot.data
+                                  ? presenter.removeFromFavorites()
+                                  : presenter.addToFavorites();
+                              if (snapshot.data) {
                                 widget.listKey.currentState.removeItem(
                                     widget.index,
                                     (ctx, animation) => AbsorbPointer(
@@ -70,16 +71,13 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
                                               sizeFactor: animation,
                                               child: PresenterProvider(
                                                 key: ValueKey(this.widget.key),
-                                                presenter: NewsCardPresenter(presenter.article),
+                                                presenter: NewsCardPresenter(presenter.model),
                                                 child: NewsCard(),
                                               ),
                                             ),
                                           ),
                                         ));
                               }
-                              snapshot.data
-                                  ? presenter.removeFromFavorites()
-                                  : presenter.addToFavorites();
                             },
                           );
                         },
@@ -92,13 +90,13 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               alignment: Alignment.centerLeft,
-              child:
-                  Text(article.title, style: TextStyle(color: CupertinoColors.white, fontSize: 20)),
+              child: Text(presenter.model.title,
+                  style: TextStyle(color: CupertinoColors.white, fontSize: 20)),
             ),
             Container(
               padding: EdgeInsets.all(16.0),
               alignment: Alignment.centerRight,
-              child: Text(article.publishedAt, style: TextStyle(color: CupertinoColors.white)),
+              child: Text(presenter.model.hoursAgo, style: TextStyle(color: CupertinoColors.white)),
             ),
           ],
         ),

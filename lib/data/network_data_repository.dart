@@ -1,33 +1,60 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:clean_news_ai/data/api/news_api.dart';
-import 'package:flutter/foundation.dart';
+import 'package:clean_news_ai/data/dto/answer.dart';
+import 'package:clean_news_ai/domain/model/news_model.dart';
+import 'package:clean_news_ai/domain/repository/domain_news_repository.dart';
+import 'package:intl/intl.dart';
 
-abstract class NetworkDataRepository {
-  Future<String> getTopArticles({
-    @required String category,
-  });
+import 'dto/article.dart';
 
-  Future<String> searchArticles({
-    @required String keyWord,
-  });
+const datePattern = "yyyy-MM-dd'T'HH:mm:ss";
 
-  factory NetworkDataRepository.newsAPI() => _NewsAPIRepository();
-}
+class NewsDataRepository implements NewsDomainRepository {
+  final Api api;
+  final dateFormat = DateFormat(datePattern);
 
-class _NewsAPIRepository implements NetworkDataRepository {
-  API _api = API.newsAPI();
-  static final _NewsAPIRepository _repositoryImpl = _NewsAPIRepository._internal();
+  NewsDataRepository(this.api);
 
-  factory _NewsAPIRepository() => _repositoryImpl;
-
-  _NewsAPIRepository._internal();
+  List<NewsModel> _mapFromJsonToNewsModel(String jsonData) {
+    final answer = Answer.fromMap(json.decode(jsonData));
+    return answer.articles
+        .map((article) => NewsModel(
+            hoursAgo: _getTimeAgo(article),
+            source: article.source?.name ?? '',
+            content: article.content ?? '',
+            title: article.title ?? '',
+            url: article.url ?? '',
+            imageUrl: article.urlToImage ?? ''))
+        .toList();
+  }
 
   @override
-  Future<String> getTopArticles({String category}) async =>
-      await _api.getTopArticles(category: category);
+  Future<List<NewsModel>> getTopNews(String theme) async {
+    final jsonData = await api.getTopArticles(category: theme);
+    return _mapFromJsonToNewsModel(jsonData);
+  }
 
   @override
-  Future<String> searchArticles({String keyWord}) async =>
-      await _api.searchArticles(keyWord: keyWord);
+  Future<List<NewsModel>> searchNews(String keyWord) async {
+    final jsonData = await api.searchArticles(keyWord: keyWord);
+    return _mapFromJsonToNewsModel(jsonData);
+  }
+
+  String _getTimeAgo(Article article) {
+    if (article.publishedAt == null) return '';
+    DateTime unformedDate = dateFormat.parse(article.publishedAt);
+    final hoursNumber = DateTime.now().difference(unformedDate).inHours;
+    final lastNumber = hoursNumber % 10;
+    String time;
+    if (lastNumber < 2) {
+      time = hoursNumber.toString() + ' hours ago';
+    } else if (lastNumber < 5) {
+      time = hoursNumber.toString() + ' hours ago';
+    } else {
+      time = hoursNumber.toString() + ' hours ago';
+    }
+    return time;
+  }
 }

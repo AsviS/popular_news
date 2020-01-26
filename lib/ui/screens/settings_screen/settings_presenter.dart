@@ -7,49 +7,32 @@ import 'package:osam/osam.dart';
 import 'package:osam/presentation/presenter.dart';
 
 class SettingsPresenter extends Presenter<Store<AppState>> {
-  StreamSubscription<List<String>> selectedThemesSub;
-  StreamController<List<String>> _themesBroadcaster;
-
-  Stream<List<String>> get themesStream => _themesBroadcaster.stream;
+  Stream<List<String>> get themesStream =>
+      store.state.settingsState.propertyStream<List<String>>((state) => state.themes);
 
   List<String> get initialData => store.state.settingsState.themes;
 
-  @override
-  void init() {
-    _themesBroadcaster = StreamController.broadcast();
-    selectedThemesSub = store.state.settingsState
-        .propertyStream<List<String>>((state) => state.themes)
-        .listen((data) {
-      _themesBroadcaster.sink.add(data);
-    });
-  }
-
   void changeThemesForTopNewsState() {
+    store.dispatchEvent(event: Event(reducer: (state) => state.topNewsState..clearNews()));
     store.dispatchEvent(
-        event: Event.modify(reducer: (state, _) => state.topNewsState..clearNews()));
-    store.dispatchEvent(
-        event: Event.modify(reducer: (state, _) => state.topNewsState..addNewThemes(initialData)));
+        event: Event(reducer: (state) => state.topNewsState..addNewThemes(initialData)));
   }
 
   void addTheme(String theme) {
-    store.dispatchEvent(
-        event: Event.modify(reducer: (state, _) => state.settingsState..addTheme(theme)));
+    store.dispatchEvent(event: Event(reducer: (state) => state.settingsState..addTheme(theme)));
     changeThemesForTopNewsState();
   }
 
   void removeTheme(String theme) {
-    store.dispatchEvent(
-        event: Event.modify(reducer: (state, _) => state.settingsState..removeTheme(theme)));
+    store.dispatchEvent(event: Event(reducer: (state) => state.settingsState..removeTheme(theme)));
     changeThemesForTopNewsState();
   }
 
   void changeColor(int color) => store.dispatchEvent(
-      event: Event.modify(reducer: (state, _) => state.settingsState..changeColor(color)));
+      event: Event(reducer: (state) => state.settingsState..changeColor(color)));
 
   @override
   void dispose() {
-    selectedThemesSub.cancel();
-    _themesBroadcaster.close();
     store.dispatchEvent(event: FetchNewsEvent());
   }
 }

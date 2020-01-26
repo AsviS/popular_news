@@ -62,8 +62,8 @@ class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin, 
               ),
               PresenterProvider(
                 key: ValueKey('favoritesPresenter'),
-                child: FavoritesScreen(PageStorageKey('favorites')),
                 presenter: FavoritesPresenter(),
+                child: FavoritesScreen(PageStorageKey('favorites')),
               ),
               PresenterProvider(
                 key: ValueKey('settingsPresenter'),

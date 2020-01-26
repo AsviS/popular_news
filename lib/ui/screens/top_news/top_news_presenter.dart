@@ -1,34 +1,16 @@
 import 'dart:async';
 
-import 'package:clean_news_ai/data/dto/article.dart';
 import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
+import 'package:clean_news_ai/domain/model/news_model.dart';
 import 'package:osam/domain/store/store.dart';
 import 'package:osam/presentation/presenter.dart';
 
 class TopNewsPresenter extends Presenter<Store<AppState>> {
-  StreamSubscription<Map<String, Map<String, Article>>> newsSub;
-  StreamController<Map<String, Map<String, Article>>> _broadcaster;
+  Stream<Map<String, Map<String, NewsModel>>> get stream => store.state.topNewsState
+      .propertyStream<Map<String, Map<String, NewsModel>>>((state) => state.news);
 
-  Stream<Map<String, Map<String, Article>>> get stream => _broadcaster.stream;
-  Map<String, Map<String, Article>> get initialData => store.state.topNewsState.news;
-  double get initialScrollPosition => store.state.topNewsState.scrollPosition;
+  Map<String, Map<String, NewsModel>> get initialData => store.state.topNewsState.news;
 
   @override
-  void init() {
-    _broadcaster = StreamController<Map<String, Map<String, Article>>>.broadcast();
-    newsSub = store.state.topNewsState
-        .propertyStream<Map<String, Map<String, Article>>>((state) => state.news)
-        .listen((data) {
-      _broadcaster.sink.add(data);
-    });
-  }
-
-  @override
-  void dispose() {
-    newsSub.cancel();
-    _broadcaster.close();
-  }
+  void dispose() {}
 }
-
-//  void updateScrollPosition(double value) => store.dispatchEvent(
-//      event: Event.modify(reducer: (state, _) => state.topNewsState..updateScrollPosition(value)));

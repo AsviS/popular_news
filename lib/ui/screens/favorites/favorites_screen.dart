@@ -1,4 +1,4 @@
-import 'package:clean_news_ai/data/dto/article.dart';
+import 'package:clean_news_ai/domain/model/news_model.dart';
 import 'package:clean_news_ai/ui/ui_elements/list_element/news_card.dart';
 import 'package:clean_news_ai/ui/ui_elements/list_element/news_card_presenter.dart';
 import 'package:clean_news_ai/ui/widgets/title_app_bar.dart';
@@ -26,7 +26,7 @@ class FavoritesScreen extends StatelessWidget {
         StreamBuilder(
           stream: presenter.stream,
           initialData: presenter.initialData,
-          builder: (ctx, AsyncSnapshot<List<Article>> snapshot) {
+          builder: (ctx, AsyncSnapshot<List<NewsModel>> snapshot) {
             return SliverAnimatedList(
               key: _listKey,
               initialItemCount: snapshot.data.length,

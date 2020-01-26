@@ -6,26 +6,13 @@ import 'package:osam/osam.dart';
 import 'package:osam/presentation/presenter.dart';
 
 class NavigationPresenter<S extends Store<AppState>> extends Presenter<S> {
-  StreamSubscription<int> navigationIndexSub;
-
-  Stream<int> get stream => _broadcaster.stream;
-  StreamController<int> _broadcaster;
+  Stream<int> get stream =>
+      store.state.navigationState.propertyStream((state) => state.navigationIndex);
 
   int get initialData => store.state.navigationState.navigationIndex;
 
-  @override
-  void init() {
-    _broadcaster = StreamController.broadcast();
-    navigationIndexSub = store.state.navigationState
-        .propertyStream<int>((state) => state.navigationIndex)
-        .listen((data) {
-      _broadcaster.sink.add(data);
-    });
-  }
-
   void routeTo(int index) {
-    store.dispatchEvent(
-        event: Event.modify(reducer: (state, _) => state.navigationState..routeTo(index)));
+    store.dispatchEvent(event: Event(reducer: (state) => state.navigationState..routeTo(index)));
   }
 
   void refreshNavigationIndex(int index) => store.state.navigationState
@@ -33,8 +20,5 @@ class NavigationPresenter<S extends Store<AppState>> extends Presenter<S> {
     ..refreshHashcode();
 
   @override
-  void dispose() {
-    navigationIndexSub.cancel();
-    _broadcaster.close();
-  }
+  void dispose() {}
 }

@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:clean_news_ai/data/dto/article.dart';
+import 'package:clean_news_ai/domain/model/news_model.dart';
 import 'package:clean_news_ai/ui/screens/top_news/top_news_presenter.dart';
 import 'package:clean_news_ai/ui/ui_elements/list_element/news_card.dart';
 import 'package:clean_news_ai/ui/ui_elements/list_element/news_card_presenter.dart';
@@ -39,7 +39,7 @@ class TopNewsScreen extends StatelessWidget {
             .map((theme) => StreamBuilder(
                   initialData: presenter.initialData[theme],
                   stream: presenter.stream.map((news) => news[theme]),
-                  builder: (ctx, AsyncSnapshot<Map<String, Article>> snapshot) => snapshot
+                  builder: (ctx, AsyncSnapshot<Map<String, NewsModel>> snapshot) => snapshot
                           .data.isNotEmpty
                       ? SliverStickyHeader(
                           header: NewsStickyHeader(title: theme),
