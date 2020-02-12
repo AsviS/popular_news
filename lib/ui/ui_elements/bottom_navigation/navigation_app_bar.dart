@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:osam/osam.dart';
 import 'package:osam/presentation/store_provider.dart';
 
 import 'navigation_presenter.dart';
@@ -16,9 +17,8 @@ class NavigationAppBar extends StatelessWidget {
     return ClipRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
-        child: StreamBuilder(
+        child: OsamBuilder(
             stream: presenter.stream,
-            initialData: presenter.initialData,
             builder: (context, AsyncSnapshot<int> snapshot) {
               Future.delayed(Duration.zero, () {
                 controller.animateTo(snapshot.data);

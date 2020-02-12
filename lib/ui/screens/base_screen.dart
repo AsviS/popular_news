@@ -13,7 +13,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osam/osam.dart';
 
-import '../../main.dart';
 import 'base_screen_presenter.dart';
 import 'favorites/favorites_presenter.dart';
 import 'favorites/favorites_screen.dart';
@@ -30,7 +29,6 @@ class BaseScreen extends StatefulWidget {
 class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin, AfterLayoutMixin {
   TabController _controller;
   final int initialIndex;
-  StreamSubscription<bool> isFailure;
 
   _BaseScreenState(this.initialIndex);
 
@@ -53,7 +51,6 @@ class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin, 
           ),
           TabBarView(
             controller: _controller,
-            physics: scrollPhysics,
             children: <Widget>[
               PresenterProvider(
                 key: ValueKey('topNewsPresenter'),
@@ -83,41 +80,37 @@ class _BaseScreenState extends State<BaseScreen> with TickerProviderStateMixin, 
   @override
   void dispose() {
     _controller.dispose();
-    isFailure.cancel();
     super.dispose();
   }
 
   @override
   void afterFirstLayout(BuildContext context) {
     final presenter = PresenterProvider.of<BaseScreenPresenter>(context);
-    isFailure = presenter.failureStream.listen((isFailure) {
-      if (isFailure) {
-        showDialog(
-            context: context,
-            builder: (ctx) => CupertinoAlertDialog(
-                  title: Text('Error'),
-                  content: Text('Something went wrong while news downloading process, try again?'),
-                  actions: <Widget>[
-                    CupertinoButton(
-                      child: Text('cancel'),
-                      onPressed: () {
-                        setState(() {
-                          presenter.cancelDownloadingProcess();
-                          Navigator.of(context).pop();
-                        });
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Text('yes'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        presenter.tryDownloadAgain();
-                      },
-                    ),
-                  ],
-                ));
-      }
-    });
+    presenter.errorStream.listen((event) => showDialog(
+        context: context,
+        builder: (ctx) => CupertinoAlertDialog(
+              title: Text('Error'),
+              content: Text('Something went wrong while news downloading process, try again?'),
+              actions: <Widget>[
+                CupertinoButton(
+                  child: Text('cancel'),
+                  onPressed: () {
+                    setState(() {
+                      presenter.cancelDownloadingProcess();
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+                CupertinoButton(
+                  child: Text('yes'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    presenter.tryDownloadAgain();
+                  },
+                ),
+              ],
+            )));
+
     if (!_controller.hasListeners) {
       Future.delayed(Duration.zero, () {
         _controller.addListener(() {

@@ -4,7 +4,7 @@ import 'package:osam/domain/state/base_state.dart';
 
 part 'top_news_state.g.dart';
 
-@HiveType()
+@HiveType(typeId: 4)
 // ignore: must_be_immutable
 class TopNewsState extends BaseState<TopNewsState> {
   @HiveField(0)
@@ -15,12 +15,10 @@ class TopNewsState extends BaseState<TopNewsState> {
 
   void addNews({String theme, Map<String, NewsModel> news}) => this.news[theme] = news;
 
-  void clearNews() => this.news.clear();
+  void addNewThemes(List<String> themes) => this.news.addAll(
+      Map.fromIterable(themes, key: (item) => item, value: (item) => <String, NewsModel>{}));
 
-  void addNewThemes(List<String> themes) {
-    this.news.addAll(
-        Map.fromIterable(themes, key: (item) => item, value: (item) => <String, NewsModel>{}));
-  }
+  void clearNews() => news.clear();
 
   @override
   List<Object> get props => [news];

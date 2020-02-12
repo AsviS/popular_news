@@ -1,15 +1,14 @@
 import 'dart:async';
 
-import 'package:clean_news_ai/domain/components/app/state/app_state.dart';
-import 'package:clean_news_ai/domain/components/top_news/events/top_news_events.dart';
+import 'package:clean_news_ai/domain/events/top_news_events.dart';
+import 'package:clean_news_ai/domain/states/app_state.dart';
 import 'package:osam/osam.dart';
+import 'package:stream_transform/stream_transform.dart';
 
 class BaseScreenPresenter extends Presenter<Store<AppState>> {
-  Stream<bool> get failureStream => store.state.propertyStream((state) => state.isFailure);
-
-  bool get initialData => store.state.isFailure;
-
   void tryDownloadAgain() => store.dispatchEvent(event: FetchNewsEvent());
+
+  Stream<ErrorEvent> get errorStream => store.eventStream.whereType<ErrorEvent>();
 
   void cancelDownloadingProcess() {
     store.dispatchEvent(event: Event(reducer: (state) => state.topNewsState..clearNews()));

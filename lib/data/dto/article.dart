@@ -8,7 +8,6 @@ class Article {
   final String url;
   final String urlToImage;
   final String publishedAt;
-  final String content;
 
   const Article({
     this.source,
@@ -18,19 +17,15 @@ class Article {
     this.url,
     this.urlToImage,
     this.publishedAt,
-    this.content = '',
   });
 
-  factory Article.fromMap(Map<String, Object> map) {
-    return Article(
-      source: Source.fromMap(map['source']),
-      author: map['author'] as String,
-      title: map['title'] as String,
-      description: map['description'] as String,
-      url: map['url'] as String,
-      urlToImage: map['urlToImage'] as String,
-      publishedAt: map['publishedAt'] as String,
-      content: map['content'] as String,
-    );
-  }
+  factory Article.fromMap(Map<String, Object> map) => Article(
+        source: Source.fromMap(map['source']),
+        author: map['author'] ?? '',
+        title: map['title'] ?? '',
+        description: map['description'] ?? '',
+        url: map['url'] ?? '',
+        urlToImage: map['urlToImage'] ?? '',
+        publishedAt: map['publishedAt'] ?? '',
+      );
 }

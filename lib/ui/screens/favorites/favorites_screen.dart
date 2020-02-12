@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osam/osam.dart';
 
-import '../../../main.dart';
 import 'favorites_presenter.dart';
 
 class FavoritesScreen extends StatelessWidget {
@@ -17,15 +16,13 @@ class FavoritesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<FavoritesPresenter>(context);
     return CustomScrollView(
-      physics: scrollPhysics,
       slivers: <Widget>[
         TitleAppBar(title: 'Favorites'),
         SliverPadding(
           padding: EdgeInsets.only(top: 8),
         ),
-        StreamBuilder(
+        OsamBuilder(
           stream: presenter.stream,
-          initialData: presenter.initialData,
           builder: (ctx, AsyncSnapshot<List<NewsModel>> snapshot) {
             return SliverAnimatedList(
               key: _listKey,
@@ -33,8 +30,13 @@ class FavoritesScreen extends StatelessWidget {
               itemBuilder: (ctx, index, animation) {
                 return PresenterProvider(
                   key: ValueKey(snapshot.data[index]),
-                  presenter: NewsCardPresenter(snapshot.data[index]),
-                  child: NewsCard(listKey: _listKey, index: index),
+                  presenter: NewsCardPresenter(),
+                  child: NewsCard(
+                    model: snapshot.data[index],
+                    key: ValueKey(snapshot.data[index].url + 'card'),
+                    listKey: _listKey,
+                    index: index,
+                  ),
                 );
               },
             );

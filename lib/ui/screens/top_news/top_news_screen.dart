@@ -11,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:osam/osam.dart';
 
-import '../../../main.dart';
 import '../base_screen_presenter.dart';
 
 class TopNewsScreen extends StatelessWidget {
@@ -21,7 +20,6 @@ class TopNewsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<TopNewsPresenter>(context);
     return CustomScrollView(
-      physics: scrollPhysics,
       slivers: <Widget>[
         TitleAppBar(title: 'News'),
         CupertinoSliverRefreshControl(
@@ -47,9 +45,11 @@ class TopNewsScreen extends StatelessWidget {
                             delegate: SliverChildBuilderDelegate(
                                 (ctx, index) => PresenterProvider(
                                       key: ValueKey(snapshot.data.keys.toList()[index]),
-                                      child: NewsCard(),
-                                      presenter:
-                                          NewsCardPresenter(snapshot.data.values.toList()[index]),
+                                      child: NewsCard(
+                                        model: snapshot.data.values.toList()[index],
+                                        key: ValueKey(snapshot.data.keys.toList()[index] + 'card'),
+                                      ),
+                                      presenter: NewsCardPresenter(),
                                     ),
                                 childCount: snapshot.data.keys.length),
                           ),

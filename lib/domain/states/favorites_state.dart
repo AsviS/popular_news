@@ -4,7 +4,7 @@ import 'package:osam/domain/state/base_state.dart';
 
 part 'favorites_state.g.dart';
 
-@HiveType()
+@HiveType(typeId: 1)
 // ignore: must_be_immutable
 class FavoritesState extends BaseState<FavoritesState> {
   @HiveField(0)
@@ -12,8 +12,6 @@ class FavoritesState extends BaseState<FavoritesState> {
 
   @HiveField(1)
   var scrollPosition = 0.0;
-
-  void updateScrollPosition(double value) => scrollPosition = value;
 
   void addNews(Map<String, NewsModel> news) => this.news.addAll(news);
 

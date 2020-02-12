@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:clean_news_ai/domain/model/news_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:osam/osam.dart';
@@ -10,11 +11,13 @@ import 'news_card_presenter.dart';
 class NewsCard extends StatefulWidget {
   final GlobalKey<SliverAnimatedListState> listKey;
   final int index;
+  final NewsModel model;
 
   const NewsCard({
     Key key,
     this.listKey,
     this.index,
+    this.model,
   }) : super(key: key);
 
   @override
@@ -22,10 +25,11 @@ class NewsCard extends StatefulWidget {
 }
 
 class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
+  NewsModel get model => widget.model;
+
   @override
   Widget build(BuildContext context) {
     final presenter = PresenterProvider.of<NewsCardPresenter>(context);
-
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -39,19 +43,17 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
               child: Row(
                 children: [
                   Expanded(
-                      child: Text(presenter.model.source,
-                          style: TextStyle(color: CupertinoColors.white))),
+                      child: Text(model.source, style: TextStyle(color: CupertinoColors.white))),
                   Row(
                     children: [
                       IconButton(
                         icon: Icon(CupertinoIcons.reply, color: Colors.white),
                         onPressed: () async {
-                          Share.share(presenter.model.url);
+                          Share.share(model.url);
                         },
                       ),
-                      StreamBuilder(
-                        initialData: presenter.initialData,
-                        stream: presenter.stream,
+                      OsamBuilder(
+                        stream: presenter.stream(model),
                         builder: (ctx, AsyncSnapshot<bool> snapshot) {
                           return IconButton(
                             icon: Icon(
@@ -59,8 +61,8 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
                                 color: Colors.white),
                             onPressed: () async {
                               snapshot.data
-                                  ? presenter.removeFromFavorites()
-                                  : presenter.addToFavorites();
+                                  ? presenter.removeFromFavorites(model)
+                                  : presenter.addToFavorites(model);
                               if (snapshot.data) {
                                 widget.listKey.currentState.removeItem(
                                     widget.index,
@@ -71,7 +73,7 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
                                               sizeFactor: animation,
                                               child: PresenterProvider(
                                                 key: ValueKey(this.widget.key),
-                                                presenter: NewsCardPresenter(presenter.model),
+                                                presenter: NewsCardPresenter(),
                                                 child: NewsCard(),
                                               ),
                                             ),
@@ -90,23 +92,17 @@ class _NewsCardState extends State<NewsCard> with TickerProviderStateMixin {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               alignment: Alignment.centerLeft,
-              child: Text(presenter.model.title,
-                  style: TextStyle(color: CupertinoColors.white, fontSize: 20)),
+              child:
+                  Text(model.title, style: TextStyle(color: CupertinoColors.white, fontSize: 20)),
             ),
             Container(
               padding: EdgeInsets.all(16.0),
               alignment: Alignment.centerRight,
-              child: Text(presenter.model.hoursAgo, style: TextStyle(color: CupertinoColors.white)),
+              child: Text(model.hoursAgo, style: TextStyle(color: CupertinoColors.white)),
             ),
           ],
         ),
       ),
     );
   }
-
-  @override
-  void dispose() {
-    super.dispose();
-  } //  Animation animation;
-
 }
