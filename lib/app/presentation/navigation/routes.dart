@@ -1,6 +1,8 @@
 import 'package:osam_flutter/osam_flutter.dart';
 import 'package:clean_news_ai/app/hive_ids.dart';
 
+part 'routes.g.dart';
+
 @HiveType(typeId: hiveId.rootRoute)
 class RootRoute extends OsamRoute<Null, Null> {
   RootRoute() : super(null);

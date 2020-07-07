@@ -5,7 +5,9 @@ import 'package:osam_flutter/osam_flutter.dart';
 import 'package:clean_news_ai/app/hive_ids.dart';
 
 part '../entities/news_scope.dart';
+
 part '../entities/news_article.dart';
+
 part 'news_usecase.g.dart';
 
 class NewsUseCase {
@@ -15,8 +17,11 @@ class NewsUseCase {
   NewsUseCase(this._newsRepository, this._newsScope);
 
   Future<void> updateNews() => _newsRepository
-      .news(Request(country: 'us', category: Category.technology, page: 0))
+      .news(Request(
+          country: 'us',
+          category: Category.technology.toString().replaceAll('Category.', ''),
+          page: 0))
       .then((news) => _newsScope._fetchNewNews(news));
 
-  void setIsSaved(bool value, NewsArticle article) => article._isSaved.value = value;
+//  void setIsSaved(bool value, NewsArticle article) => article._isSaved.value = value;
 }

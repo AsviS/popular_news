@@ -21,16 +21,10 @@ class NewsArticle {
 
   IProperty<bool> get isSaved => _isSaved;
 
-  NewsArticle(
-      {this.source,
-      this.author,
-      this.title,
-      this.description,
-      this.url,
-      this.urlToImage,
+  NewsArticle(this.source, this.author, this.title, this.description, this.url, this.urlToImage,
       this.publishedAt,
-      PropertyNotifier<bool> isSaved}) {
-    _isSaved = isSaved ?? PropertyNotifier<bool>(false);
-    // possible chaining here
+      [this._isSaved]) {
+    _isSaved ??= PropertyNotifier<bool>(false);
+//     possible chaining here
   }
 }

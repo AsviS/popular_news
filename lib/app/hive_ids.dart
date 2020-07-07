@@ -1,3 +1,4 @@
+import 'package:clean_news_ai/app/presentation/navigation/routes.dart';
 import 'package:clean_news_ai/app/presentation/state/ui_state.dart';
 import 'package:clean_news_ai/features/news/domain/use_cases/news_usecase.dart';
 import 'package:osam_flutter/osam_flutter.dart';
@@ -22,5 +23,7 @@ void registerAdapters() {
   Hive.registerAdapter(AppStateAdapter());
   Hive.registerAdapter(NewsScopeAdapter());
   Hive.registerAdapter(NewsArticleAdapter());
+  Hive.registerAdapter(RootRouteAdapter());
+  Hive.registerAdapter(DialogRouteAdapter());
   Hive.registerAdapter(UIStateAdapter());
 }

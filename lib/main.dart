@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:clean_news_ai/app/data/api_factory.dart';
 import 'package:clean_news_ai/app/domain/entities/app_state.dart';
 import 'package:clean_news_ai/app/hive_ids.dart';
@@ -14,12 +16,13 @@ import 'package:worker_manager/worker_manager.dart';
 final navKey = GlobalKey<NavigatorState>();
 final currentContext = navKey.currentState.overlay.context;
 
-const version = 5;
+const version = 6;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final _apiFactory = ApiFactory(HttpClient(log: false, timeout: Duration(seconds: 5)));
   await Executor().warmUp();
+
 
   final persist = Persist<AppState, UIState>(appName: 'news_app');
   registerAdapters();
@@ -33,7 +36,6 @@ void main() async {
 
   final usecaseContainer = UseCaseContainer(
       [NewsUseCase(NewsRepositoryImpl(_apiFactory.newsApi), appState.currentNewsScope)]);
-
   runApp(OsamProvider(
     useCaseContainer: usecaseContainer,
     appState: appState,

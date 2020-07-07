@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: 0.1.2
-  worker_manager: ^2.8.3
+  worker_manager: ^2.8.4
   osam_flutter: ^3.1.8
   osam_http_client: ^0.0.3
   flutter_sticky_header: ^0.4.2

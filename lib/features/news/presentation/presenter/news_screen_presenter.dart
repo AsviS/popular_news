@@ -19,6 +19,7 @@ class NewsScreenPresenter extends Presenter<UIState, AppState> with NavigationPr
 
   void showImage(NewsArticle article) => push(DialogRoute(article.urlToImage));
 
-  void setIsSaved(bool value, NewsArticle article) =>
-      useCaseContainer.useCase<NewsUseCase>().setIsSaved(value, article);
+//
+//  void setIsSaved(bool value, NewsArticle article) =>
+//      useCaseContainer.useCase<NewsUseCase>().setIsSaved(value, article);
 }
