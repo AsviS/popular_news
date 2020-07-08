@@ -23,5 +23,5 @@ class NewsUseCase {
           page: 0))
       .then((news) => _newsScope._fetchNewNews(news));
 
-//  void setIsSaved(bool value, NewsArticle article) => article._isSaved.value = value;
+  void setIsSaved(bool value, NewsArticle article) => article._isSaved.value = value;
 }

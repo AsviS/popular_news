@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:clean_news_ai/app/data/hosts.dart';
 import 'package:clean_news_ai/features/news/data/models/answer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:osam_http_client/osam_http_client.dart';

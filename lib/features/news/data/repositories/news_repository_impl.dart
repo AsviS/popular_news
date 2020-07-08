@@ -18,8 +18,14 @@ class NewsRepositoryImpl implements NewsRepository {
   Cancelable<List<NewsArticle>> news(Request request) => Executor()
       .execute(arg1: api, arg2: request, arg3: apiKeys.first, fun3: _news)
       .next((value) => value
-          .map((e) => NewsArticle(e.source?.name ?? '', e.author ?? '', e.title ?? '',
-              e.description ?? '', e.url ?? '', e.urlToImage ?? '', e.publishedAt ?? ''))
+          .map((e) => NewsArticle(
+              source: e.source?.name ?? '',
+              author: e.author ?? '',
+              title: e.title ?? '',
+              description: e.description ?? '',
+              url: e.url ?? '',
+              urlToImage: e.urlToImage ?? '',
+              publishedAt: e.publishedAt ?? ''))
           .toList());
 
   static Future<List<Article>> _news(NewsApi api, Request request, String apiKey) async {

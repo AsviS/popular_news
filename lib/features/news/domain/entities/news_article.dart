@@ -17,14 +17,18 @@ class NewsArticle {
   @HiveField(6)
   final String publishedAt;
   @HiveField(7)
-  PropertyNotifier<bool> _isSaved;
+  final PropertyNotifier<bool> _isSaved;
 
   IProperty<bool> get isSaved => _isSaved;
 
-  NewsArticle(this.source, this.author, this.title, this.description, this.url, this.urlToImage,
+  NewsArticle(
+      {this.source,
+      this.author,
+      this.title,
+      this.description,
+      this.url,
+      this.urlToImage,
       this.publishedAt,
-      [this._isSaved]) {
-    _isSaved ??= PropertyNotifier<bool>(false);
-//     possible chaining here
-  }
+      PropertyNotifier<bool> isSaved})
+      : _isSaved = isSaved ?? PropertyNotifier<bool>(false);
 }

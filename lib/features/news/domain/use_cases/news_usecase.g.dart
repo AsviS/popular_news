@@ -51,14 +51,14 @@ class NewsArticleAdapter extends TypeAdapter<NewsArticle> {
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return NewsArticle(
-      fields[0] as String,
-      fields[1] as String,
-      fields[2] as String,
-      fields[3] as String,
-      fields[4] as String,
-      fields[5] as String,
-      fields[6] as String,
-      PropertyNotifier(fields[7].value),
+      source: fields[0] as String,
+      author: fields[1] as String,
+      title: fields[2] as String,
+      description: fields[3] as String,
+      url: fields[4] as String,
+      urlToImage: fields[5] as String,
+      publishedAt: fields[6] as String,
+      isSaved: PropertyNotifier(fields[7].value)
     );
   }
 
