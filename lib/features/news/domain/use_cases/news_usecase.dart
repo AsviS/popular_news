@@ -23,7 +23,11 @@ class NewsUseCase extends UseCase {
             country: 'us',
             category: Category.technology.toString().replaceAll('Category.', ''),
             page: 0))
-        .then((news) => _newsScope._fetchNewNews(news));
+        .then((news) => updateValue(
+            _newsScope.news,
+            (value) => value
+              ..clear()
+              ..addAll(news)));
   }
 
   void setIsSaved(bool value, NewsArticle article) => setValue(article.isSaved, value);
