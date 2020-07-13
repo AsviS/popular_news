@@ -1,12 +1,13 @@
 import 'package:clean_news_ai/app/presentation/navigation/routes.dart';
 import 'package:clean_news_ai/app/presentation/state/ui_state.dart';
 import 'package:clean_news_ai/features/news/domain/use_cases/news_usecase.dart';
+import 'package:clean_news_ai/features/news/presentation/routes/full_info_route.dart';
 import 'package:osam_flutter/osam_flutter.dart';
 
 import 'domain/entities/app_state.dart';
 
 // ignore: camel_case_types
-abstract class hiveId {
+abstract class HiveId {
   //domain
   static const appState = 0;
   static const newsScope = 1;
@@ -24,6 +25,6 @@ void registerAdapters() {
   Hive.registerAdapter(NewsScopeAdapter());
   Hive.registerAdapter(NewsArticleAdapter());
   Hive.registerAdapter(RootRouteAdapter());
-  Hive.registerAdapter(DialogRouteAdapter());
+  Hive.registerAdapter(FullInfoRouteAdapter());
   Hive.registerAdapter(UIStateAdapter());
 }

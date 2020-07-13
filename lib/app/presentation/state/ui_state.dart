@@ -4,11 +4,11 @@ import 'package:osam_flutter/osam_flutter.dart';
 
 part 'ui_state.g.dart';
 
-@HiveType(typeId: hiveId.uiState)
+@HiveType(typeId: HiveId.uiState)
 class UIState {
   @HiveField(0)
-  var appNavigation = Navigation(PropertyNotifier([RootRoute()]));
+  var appNavigation = Navigation([RootRoute()]);
   @HiveField(1)
-  var tabNavigation = TabNavigation(PropertyNotifier(Tabs.top));
+  var tabNavigation = TabNavigation(Tabs.top);
 }
 

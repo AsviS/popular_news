@@ -1,6 +1,6 @@
 part of '../use_cases/news_usecase.dart';
 
-@HiveType(typeId: hiveId.newsArticle)
+@HiveType(typeId: HiveId.newsArticle)
 class NewsArticle {
   @HiveField(0)
   final String source;
@@ -17,9 +17,7 @@ class NewsArticle {
   @HiveField(6)
   final String publishedAt;
   @HiveField(7)
-  final PropertyNotifier<bool> _isSaved;
-
-  IProperty<bool> get isSaved => _isSaved;
+  final IProperty<bool> isSaved;
 
   NewsArticle(
       {this.source,
@@ -29,6 +27,6 @@ class NewsArticle {
       this.url,
       this.urlToImage,
       this.publishedAt,
-      PropertyNotifier<bool> isSaved})
-      : _isSaved = isSaved ?? PropertyNotifier<bool>(false);
+        IProperty<bool> isSaved})
+      : isSaved = isSaved ?? IProperty(false);
 }

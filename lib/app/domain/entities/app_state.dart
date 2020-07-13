@@ -4,7 +4,7 @@ import 'package:clean_news_ai/app/hive_ids.dart';
 
 part 'app_state.g.dart';
 
-@HiveType(typeId: hiveId.appState)
+@HiveType(typeId: HiveId.appState)
 class AppState {
   @HiveField(0)
   var _currentNewsScope = NewsScope();

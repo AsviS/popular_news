@@ -3,23 +3,9 @@ import 'package:clean_news_ai/app/hive_ids.dart';
 
 part 'routes.g.dart';
 
-@HiveType(typeId: hiveId.rootRoute)
-class RootRoute extends OsamRoute<Null, Null> {
-  RootRoute() : super(null);
-  @override
-  Null result;
-}
+@HiveType(typeId: HiveId.rootRoute)
+class RootRoute extends OsamRoute {}
 
-@HiveType(typeId: hiveId.dialogRoute)
-class DialogRoute extends OsamRoute<String, Null> {
-  @override
-  @HiveField(0)
-  final String argument;
-  @override
-  Null result;
-
-  DialogRoute(this.argument) : super(argument);
-}
 
 abstract class Tabs {
   static const top = 'top';

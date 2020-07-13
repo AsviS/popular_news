@@ -18,9 +18,14 @@ class NewsScreen extends StatelessWidget {
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
             slivers: <Widget>[
+              CupertinoSliverNavigationBar(
+                largeTitle: Text('News'),
+              ),
               CupertinoSliverRefreshControl(
                 onRefresh: () async {
-                  await presenter.updateNews();
+                  await presenter.fetch().catchError((e) {
+//                    showNotification(child: Text('error'), safeAreaPadding: EdgeInsets.all(8));
+                  });
                 },
               ),
               ValueListenableBuilder<List<NewsArticle>>(
@@ -30,18 +35,20 @@ class NewsScreen extends StatelessWidget {
                     delegate: SliverChildBuilderDelegate((ctx, index) {
                       final newsArticle = news[index];
                       return GestureDetector(
-                        onTap: () => presenter.showImage(newsArticle),
+                        onTap: () => presenter.showFullInfo(newsArticle),
                         child: Card(
                             color: Colors.black87,
                             child: Column(
                               children: <Widget>[
-                                SizedBox(
-                                  width: double.infinity,
-                                  height: 200,
-                                  // hero
-                                  child: Image.network(
-                                    newsArticle.urlToImage,
-                                    fit: BoxFit.cover,
+                                Hero(
+                                  tag: newsArticle.url,
+                                  child: SizedBox(
+                                    width: double.infinity,
+                                    height: 200,
+                                    child: Image.network(
+                                      newsArticle.urlToImage,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 Padding(

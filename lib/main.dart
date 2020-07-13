@@ -12,17 +12,13 @@ import 'package:osam_http_client/osam_http_client.dart';
 import 'app/presentation/presenter/app_navigation_presenter.dart';
 import 'package:worker_manager/worker_manager.dart';
 
-final navKey = GlobalKey<NavigatorState>();
-final currentContext = navKey.currentState.overlay.context;
-
-const version = 6;
+const version = 12;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   final _apiFactory = ApiFactory(HttpClient(log: false, timeout: Duration(seconds: 5)));
   await Executor().warmUp();
-
-
+  
   final persist = Persist<AppState, UIState>(appName: 'news_app');
   registerAdapters();
   final persistedVersion = await persist.version;
@@ -45,7 +41,6 @@ void main() async {
       child: PresenterProvider(
         presenter: AppPresenter(),
         child: MaterialApp(
-          navigatorKey: navKey,
           home: const RootScreen(),
         ),
       ),

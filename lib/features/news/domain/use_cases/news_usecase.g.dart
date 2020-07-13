@@ -17,7 +17,7 @@ class NewsScopeAdapter extends TypeAdapter<NewsScope> {
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return NewsScope(
-      PropertyNotifier(List.from(fields[0].value)),
+      news: IProperty(List.from(fields[0].value)),
     );
   }
 
@@ -26,7 +26,7 @@ class NewsScopeAdapter extends TypeAdapter<NewsScope> {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj._news);
+      ..write(obj.news);
   }
 
   @override
@@ -58,7 +58,7 @@ class NewsArticleAdapter extends TypeAdapter<NewsArticle> {
       url: fields[4] as String,
       urlToImage: fields[5] as String,
       publishedAt: fields[6] as String,
-      isSaved: PropertyNotifier(fields[7].value)
+      isSaved: IProperty(fields[7].value),
     );
   }
 
@@ -81,7 +81,7 @@ class NewsArticleAdapter extends TypeAdapter<NewsArticle> {
       ..writeByte(6)
       ..write(obj.publishedAt)
       ..writeByte(7)
-      ..write(obj._isSaved);
+      ..write(obj.isSaved);
   }
 
   @override
