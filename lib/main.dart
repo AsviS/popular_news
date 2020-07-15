@@ -1,4 +1,3 @@
-
 import 'package:clean_news_ai/app/data/api_factory.dart';
 import 'package:clean_news_ai/app/domain/entities/app_state.dart';
 import 'package:clean_news_ai/app/hive_ids.dart';
@@ -30,7 +29,7 @@ void main() async {
   final uiState = persist.uiState ?? UIState();
 
   final usecaseContainer = UseCaseContainer(
-      [NewsUseCase(NewsRepositoryImpl(_apiFactory.newsApi), appState.currentNewsScope)]);
+      [NewsUseCase(NewsRepositoryImpl(_apiFactory.newsApi), appState.newsScope)]);
   runApp(OsamProvider(
     useCaseContainer: usecaseContainer,
     appState: appState,

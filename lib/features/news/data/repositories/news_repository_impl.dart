@@ -1,8 +1,8 @@
 import 'package:clean_news_ai/features/news/data/data_sources/news_api.dart';
 import 'package:clean_news_ai/features/news/data/models/article.dart';
+import 'package:clean_news_ai/features/news/domain/entities/news_article.dart';
 import 'package:clean_news_ai/features/news/domain/entities/request.dart';
 import 'package:clean_news_ai/features/news/domain/repositories/news_repository.dart';
-import 'package:clean_news_ai/features/news/domain/use_cases/news_usecase.dart';
 import 'package:worker_manager/worker_manager.dart';
 
 const apiKeys = [

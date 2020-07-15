@@ -2,6 +2,7 @@ import 'package:clean_news_ai/app/domain/entities/app_state.dart';
 import 'package:clean_news_ai/app/presentation/navigation/routes.dart';
 import 'package:clean_news_ai/app/presentation/presenter/app_navigation_presenter.dart';
 import 'package:clean_news_ai/app/presentation/state/ui_state.dart';
+import 'package:clean_news_ai/features/news/domain/entities/news_article.dart';
 import 'package:clean_news_ai/features/news/domain/use_cases/news_usecase.dart';
 import 'package:clean_news_ai/features/news/presentation/pages/news_screen.dart';
 import 'package:clean_news_ai/features/news/presentation/presenter/news_screen_presenter.dart';

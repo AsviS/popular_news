@@ -1,7 +1,10 @@
-part of '../use_cases/news_usecase.dart';
+import 'package:clean_news_ai/app/hive_ids.dart';
+import 'package:osam_flutter/osam_flutter.dart';
+
+part 'news_article.g.dart';
 
 @HiveType(typeId: HiveId.newsArticle)
-class NewsArticle {
+class NewsArticle with PropertyChanger {
   @HiveField(0)
   final String source;
   @HiveField(1)
@@ -19,6 +22,8 @@ class NewsArticle {
   @HiveField(7)
   final IProperty<bool> isSaved;
 
+  void setIsSaved(bool value) => set(isSaved, value);
+
   NewsArticle(
       {this.source,
       this.author,
@@ -27,6 +32,6 @@ class NewsArticle {
       this.url,
       this.urlToImage,
       this.publishedAt,
-        IProperty<bool> isSaved})
+      IProperty<bool> isSaved})
       : isSaved = isSaved ?? IProperty(false);
 }

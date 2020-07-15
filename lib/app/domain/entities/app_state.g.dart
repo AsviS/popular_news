@@ -16,7 +16,9 @@ class AppStateAdapter extends TypeAdapter<AppState> {
     var fields = <int, dynamic>{
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return AppState().._currentNewsScope = fields[0] as NewsScope;
+    return AppState(
+      newsScope: IProperty(fields[0].value),
+    );
   }
 
   @override
@@ -24,7 +26,7 @@ class AppStateAdapter extends TypeAdapter<AppState> {
     writer
       ..writeByte(1)
       ..writeByte(0)
-      ..write(obj._currentNewsScope);
+      ..write(obj.newsScope);
   }
 
   @override

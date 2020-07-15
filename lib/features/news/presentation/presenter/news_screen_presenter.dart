@@ -1,6 +1,6 @@
 import 'package:clean_news_ai/app/domain/entities/app_state.dart';
-import 'package:clean_news_ai/app/presentation/navigation/routes.dart';
 import 'package:clean_news_ai/app/presentation/state/ui_state.dart';
+import 'package:clean_news_ai/features/news/domain/entities/news_article.dart';
 import 'package:clean_news_ai/features/news/domain/use_cases/news_usecase.dart';
 import 'package:clean_news_ai/features/news/presentation/routes/full_info_route.dart';
 import 'package:osam_flutter/osam_flutter.dart';
@@ -17,10 +17,8 @@ class NewsScreenPresenter extends Presenter<UIState, AppState> with NavigationPr
     await (_updateTask = useCaseContainer.useCase<NewsUseCase>().updateNews());
   }
 
-  IProperty<List<NewsArticle>> get news => appState.currentNewsScope.news;
+  IProperty<List<NewsArticle>> get news => appState.newsScope.value.news;
 
   void showFullInfo(NewsArticle article) => push(FullInfoRoute(article));
 
-  void setIsSaved(bool value, NewsArticle article) =>
-      useCaseContainer.useCase<NewsUseCase>().setIsSaved(value, article);
 }

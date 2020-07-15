@@ -1,3 +1,4 @@
+import 'package:clean_news_ai/features/news/domain/entities/news_article.dart';
 import 'package:clean_news_ai/features/news/domain/use_cases/news_usecase.dart';
 import 'package:clean_news_ai/features/news/presentation/presenter/news_screen_presenter.dart';
 import 'package:flutter/cupertino.dart';
