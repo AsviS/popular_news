@@ -22,7 +22,7 @@ class NewsArticle extends PropertyChanger {
   @HiveField(7)
   final IProperty<bool> isSaved;
 
-  void setIsSaved(bool saved) => let(isSaved).apply((value) => value = saved);
+  void setIsSaved(bool value) => let(isSaved).set(value);
 
   NewsArticle(
       {this.source,

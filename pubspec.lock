@@ -350,14 +350,14 @@ packages:
       name: osam
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.3.5"
+    version: "6.3.6"
   osam_flutter:
     dependency: "direct main"
     description:
       name: osam_flutter
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.2.8"
+    version: "3.2.9"
   osam_http_client:
     dependency: "direct main"
     description:
