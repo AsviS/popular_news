@@ -5,15 +5,13 @@ import 'news_article.dart';
 part 'news_scope.g.dart';
 
 @HiveType(typeId: HiveId.newsScope)
-class NewsScope with PropertyChanger {
+class NewsScope extends PropertyChanger {
   @HiveField(0)
   final IProperty<List<NewsArticle>> news;
 
-  void updateNews(List<NewsArticle> newNews) => update(
-      news,
-      (value) => value
-        ..clear()
-        ..addAll(newNews));
+  void updateNews(List<NewsArticle> newNews) => let(news).apply((value) => value
+    ..clear()
+    ..addAll(newNews));
 
   NewsScope({IProperty<List<NewsArticle>> news}) : news = news ?? IProperty(<NewsArticle>[]);
 }

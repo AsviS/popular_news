@@ -4,7 +4,7 @@ import 'package:osam_flutter/osam_flutter.dart';
 part 'news_article.g.dart';
 
 @HiveType(typeId: HiveId.newsArticle)
-class NewsArticle with PropertyChanger {
+class NewsArticle extends PropertyChanger {
   @HiveField(0)
   final String source;
   @HiveField(1)
@@ -22,7 +22,7 @@ class NewsArticle with PropertyChanger {
   @HiveField(7)
   final IProperty<bool> isSaved;
 
-  void setIsSaved(bool value) => set(isSaved, value);
+  void setIsSaved(bool saved) => let(isSaved).apply((value) => value = saved);
 
   NewsArticle(
       {this.source,
